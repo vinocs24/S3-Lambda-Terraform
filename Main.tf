@@ -5,7 +5,7 @@ provider "aws" {
 
 # Create S3 Bucket
 resource "aws_s3_bucket" "example-dev" {
-  bucket = "my-tf-test-bucket-dev"
+  bucket = var.source-bucket-name
   acl    = "private"
 
   tags = {
@@ -15,7 +15,7 @@ resource "aws_s3_bucket" "example-dev" {
 }
 
 resource "aws_s3_bucket" "example-val" {
-  bucket = "my-tf-test-bucket-val"
+  bucket = var.destination-bucket-name
   acl    = "private"
 
   tags = {

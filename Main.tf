@@ -1,7 +1,7 @@
 # Use AWS Terraform provider
-provider "aws" {
+/*provider "aws" {
   region = "us-west-2"
-}
+}*/
 
 # Create S3 Bucket
 resource "aws_s3_bucket" "example-dev" {

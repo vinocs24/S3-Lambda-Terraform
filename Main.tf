@@ -1,11 +1,12 @@
 # Use AWS Terraform provider
-/*provider "aws" {
+provider "aws" {
   region = "us-west-2"
-}*/
+}
 
 # Create S3 Bucket
 resource "aws_s3_bucket" "example-dev" {
   bucket = "my-tf-test-bucket-dev"
+  bucket = "my-tf-test-bucket-val"
   acl    = "private"
 
   tags = {
@@ -14,7 +15,7 @@ resource "aws_s3_bucket" "example-dev" {
   }
 }
 
-resource "aws_s3_bucket" "example-val" {
+/*resource "aws_s3_bucket" "example-val" {
   bucket = "my-tf-test-bucket-val"
   acl    = "private"
 
@@ -22,4 +23,4 @@ resource "aws_s3_bucket" "example-val" {
     Name        = "My bucket- Val"
     Environment = "vel"
   }
-}
+}*/

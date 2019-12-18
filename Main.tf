@@ -6,7 +6,6 @@ provider "aws" {
 # Create S3 Bucket
 resource "aws_s3_bucket" "example-dev" {
   bucket = "my-tf-test-bucket-dev"
-  bucket = "my-tf-test-bucket-val"
   acl    = "private"
 
   tags = {
@@ -15,7 +14,7 @@ resource "aws_s3_bucket" "example-dev" {
   }
 }
 
-/*resource "aws_s3_bucket" "example-val" {
+resource "aws_s3_bucket" "example-val" {
   bucket = "my-tf-test-bucket-val"
   acl    = "private"
 
@@ -23,4 +22,6 @@ resource "aws_s3_bucket" "example-dev" {
     Name        = "My bucket- Val"
     Environment = "vel"
   }
-}*/
+}
+
+

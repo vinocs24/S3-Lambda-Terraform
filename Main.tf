@@ -4,22 +4,22 @@ provider "aws" {
 }
 
 # Create S3 Bucket
-resource "aws_s3_bucket" "b" {
-  bucket = "my-tf-test-bucket"
+resource "aws_s3_bucket" "example-dev" {
+  bucket = "my-tf-test-bucket-dev"
   acl    = "private"
 
   tags = {
-    Name        = "My bucket"
+    Name        = "My bucket- Dev"
     Environment = "Dev"
   }
 }
 
-resource "aws_s3_bucket" "b1" {
-  bucket = "my-tf-test-bucket1"
+resource "aws_s3_bucket" "example-val" {
+  bucket = "my-tf-test-bucket-val"
   acl    = "private"
 
   tags = {
-    Name        = "My bucket"
-    Environment = "Dev"
+    Name        = "My bucket- Val"
+    Environment = "vel"
   }
 }

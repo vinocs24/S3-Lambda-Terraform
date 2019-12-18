@@ -24,8 +24,8 @@ resource "aws_s3_bucket" "example-val" {
   }
 }
 
-resource "aws_iam_role" "test_role" {
-  name = "test_role"
+resource "aws_iam_role" "lambda_role" {
+  name = "lambda-s3-access"
 
   assume_role_policy = <<EOF
 {

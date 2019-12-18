@@ -3,8 +3,8 @@ provider "aws" {
   region = "us-west-2"
 }
 
-resource "aws_iam_role" "lambda_role" {
-  name = "lambda-s3-access"
+resource "aws_iam_role" "test_role" {
+  name = "test_role"
 
   assume_role_policy = <<EOF
 {
@@ -23,7 +23,25 @@ resource "aws_iam_role" "lambda_role" {
 EOF
 }
 
+resource "aws_iam_role_policy" "test_policy" {
+  name = "test_policy"
+  role = "${aws_iam_role.test_role.id}"
 
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "s3:*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+}
 
 # Create S3 Bucket
 resource "aws_s3_bucket" "example-dev" {

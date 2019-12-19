@@ -25,7 +25,7 @@ resource "aws_s3_bucket" "example-val" {
   }
 }*/
 
-
+data "aws_caller_identity" "current" {}
 
 resource "aws_cloudtrail" "foobar" {
   name                          = "tf-trail-foobar"

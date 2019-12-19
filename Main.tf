@@ -35,7 +35,7 @@ resource "aws_cloudtrail" "foobar" {
 }
 
 resource "aws_s3_bucket" "vino1990" {
-  bucket        = "tf-test-trail"
+  bucket        = "tf-test-trail-vino"
   force_destroy = true
 
   policy = <<POLICY

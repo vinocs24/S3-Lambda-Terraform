@@ -3,71 +3,55 @@ provider "aws" {
   region = "us-west-2"
 }
 
-
-/*# Create S3 Bucket
+# Create S3 Bucket 1
 resource "aws_s3_bucket" "example-dev" {
   bucket = var.source-bucket-name
   acl    = "private"
 
   tags = {
-    Name        = "My bucket- Dev"
+    Name        = "My bucket-Dev"
     Environment = "Dev"
   }
 }
 
+# Create S3 Bucket 2
 resource "aws_s3_bucket" "example-val" {
   bucket = var.destination-bucket-name
   acl    = "private"
 
   tags = {
-    Name        = "My bucket- Val"
+    Name        = "My bucket-Val"
     Environment = "vel"
   }
-}*/
-
-data "aws_caller_identity" "current" {}
-
-resource "aws_cloudtrail" "foobar" {
-  name                          = "tf-trail-foobar"
-  s3_bucket_name                = aws_s3_bucket.vino1990.id
-  s3_key_prefix                 = "prefix"
-  include_global_service_events = false
 }
 
-resource "aws_s3_bucket" "vino1990" {
-  bucket        = "tf-test-trail-vino"
-  force_destroy = true
 
-  policy = <<POLICY
+resource "aws_lambda_function" "lambda_function" {
+  role             = aws_iam_role.lambda_exec_role.arn
+  handler          = var.handler
+  runtime          = var.runtime
+  filename         = "lambda.zip"
+  function_name    = var.function_name
+  source_code_hash = base64sha256(file("lambda.zip"))
+}
+
+resource "aws_iam_role" "lambda_exec_role" {
+  name        = "lambda_exec"
+  path        = "/"
+  description = "Allows Lambda Function to call AWS services on your behalf."
+
+  assume_role_policy = <<EOF
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "AWSCloudTrailAclCheck",
-            "Effect": "Allow",
-            "Principal": {
-              "Service": "cloudtrail.amazonaws.com"
-            },
-            "Action": "s3:GetBucketAcl",
-            "Resource": "arn:aws:s3:::tf-test-trail"
-        },
-        {
-            "Sid": "AWSCloudTrailWrite",
-            "Effect": "Allow",
-            "Principal": {
-              "Service": "cloudtrail.amazonaws.com"
-            },
-            "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::tf-test-trail-vino/prefix/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
-            "Condition": {
-                "StringEquals": {
-                    "s3:x-amz-acl": "bucket-owner-full-control"
-                }
-            }
-        }
-    ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
 }
-POLICY
+EOF
 }
-
-

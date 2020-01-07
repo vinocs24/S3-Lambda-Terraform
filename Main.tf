@@ -26,32 +26,41 @@ resource "aws_s3_bucket" "example-val" {
 }
 
 
-resource "aws_lambda_function" "lambda_function" {
-  role             = aws_iam_role.lambda_exec_role.arn
-  handler          = var.handler
-  runtime          = var.runtime
-  #filename         = "lambda.zip"
-  function_name    = var.function_name
-  #source_code_hash = base64sha256(file("lambda.zip"))
-}
-
-resource "aws_iam_role" "lambda_exec_role" {
-  name        = "lambda_exec"
-  path        = "/"
-  description = "Allows Lambda Function to call AWS services on your behalf."
+resource "aws_iam_role" "iam_for_lambda" {
+  name = "iam_for_lambda"
 
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Effect": "Allow",
+      "Action": "sts:AssumeRole",
       "Principal": {
         "Service": "lambda.amazonaws.com"
       },
-      "Action": "sts:AssumeRole"
+      "Effect": "Allow",
+      "Sid": ""
     }
   ]
 }
 EOF
+}
+
+
+# Archive a single file.
+
+data "archive_file" "Test" {
+  type        = "zip"
+  source_file = "Test.py"
+  output_path = "Test.zip"
+}
+
+resource "aws_lambda_function" "test_lambda" {
+  filename      = "Test.zip"
+  function_name = "s3-filemove"
+  role          = "aws_iam_role.iam_for_lambda.arn"
+  handler       = "Test.lambda_handler"
+  source_code_hash = "filebase64sha256("Test.zip")"
+
+  runtime = "python3.7"
 }

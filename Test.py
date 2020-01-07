@@ -4,8 +4,8 @@ s3 = boto3.resource('s3')
 
 
 def lambda_handler(event, context):
-    bucket = s3.Bucket('test-bucket-3x1')
-    dest_bucket = s3.Bucket('test-bucket-3x2')
+    bucket = s3.Bucket('my-tf-test-bucket-dev')
+    dest_bucket = s3.Bucket('my-tf-test-bucket-val')
     print(bucket)
     print(dest_bucket)
 

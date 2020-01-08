@@ -25,7 +25,7 @@ resource "aws_s3_bucket" "example-val" {
   }
 }
 
-
+# IAM Role
 resource "aws_iam_role" "iam_for_lambda" {
   name = "iam_for_lambda"
 
@@ -43,7 +43,15 @@ resource "aws_iam_role" "iam_for_lambda" {
     }
   ]
 }
+EOF
+} 
 
+
+resource "aws_iam_policy" "policy-s3" {
+  name        = "s3-move-file"
+  description = "s3-move-file"
+
+  policy = <<EOF
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -79,7 +87,13 @@ resource "aws_iam_role" "iam_for_lambda" {
     ]
 }
 EOF
-} 
+}
+
+resource "aws_iam_role_policy_attachment" "test-attach" {
+  role       = aws_iam_role.iam_for_lambda
+  policy_arn = aws_iam_policy.policy-s3.arn
+}
+
 
 
 # Archive a single file.

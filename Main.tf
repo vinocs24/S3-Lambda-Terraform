@@ -26,6 +26,48 @@ resource "aws_s3_bucket" "example-val" {
 }
 
 
+resource "aws_iam_role" "iam_for_lambda" {
+  name = "iam_for_lambda"
+
+  assume_role_policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "ListSourceAndDestinationBuckets",
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket",
+                "s3:ListBucketVersions"
+            ],
+            "Resource": [
+                "arn:aws:s3:::my-tf-test-bucket-dev",
+                "arn:aws:s3:::my-tf-test-bucket-val"
+            ]
+        },
+        {
+            "Sid": "SourceBucketGetObjectAccess",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:GetObjectVersion"
+            ],
+            "Resource": "arn:aws:s3:::my-tf-test-bucket-dev/*"
+        },
+        {
+            "Sid": "DestinationBucketPutObjectAccess",
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject"
+            ],
+            "Resource": "arn:aws:s3:::my-tf-test-bucket-val/*"
+        }
+    ]
+}
+EOF
+} 
+
+
 # Archive a single file.
 
 data "archive_file" "Test" {

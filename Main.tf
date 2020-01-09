@@ -50,6 +50,7 @@ EOF
 resource "aws_iam_policy" "policy" {
   name        = "s3-move-file"
   description = "s3-move-file"
+  arn = "arn:aws:iam::aws:policy/policy"
 
   policy = <<EOF
 {

@@ -26,7 +26,7 @@ resource "aws_s3_bucket" "example-val" {
 }
 
 # IAM Role
-resource "aws_iam_role" "iam_for_lambda" {
+resource "aws_iam_role" "role" {
   name = "iam_for_lambda"
 
   assume_role_policy = <<EOF
@@ -48,7 +48,7 @@ EOF
 
 
 resource "aws_iam_policy" "policy" {
-  name        = "policy"
+  name        = "s3-policy"
   description = "s3-move-file"
 
   policy = <<EOF
@@ -90,10 +90,9 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "test-attach" {
-  role       = "aws_iam_role.iam_for_lambda.name"
-  policy_arn = "aws_iam_policy.test-attach.arn"
+  role       = "aws_iam_role.role.name"
+  policy_arn = "aws_iam_policy.policy.arn"
 }
-
 
 
 # Archive a single file.

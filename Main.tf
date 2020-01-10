@@ -90,7 +90,7 @@ resource "aws_iam_policy" "policy" {
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "test-attach" {
+resource "aws_iam_role_policy_attachment" "pol" {
   role       = "aws_iam_role.role.name"
   policy_arn = "aws_iam_policy.policy.arn"
 }

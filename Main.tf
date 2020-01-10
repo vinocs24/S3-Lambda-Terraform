@@ -48,7 +48,7 @@ EOF
 
 
 resource "aws_iam_policy" "policy" {
-  name        = "s3-move-file"
+  name        = "policy"
   description = "s3-move-file"
   arn = "arn:aws:iam::aws:policy/policy"
 

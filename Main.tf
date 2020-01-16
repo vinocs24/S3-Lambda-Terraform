@@ -14,6 +14,44 @@ resource "aws_s3_bucket" "example-dev" {
   }
 }
 
+#s3_bucket_policy
+resource "aws_s3_bucket_policy" "example" {
+  bucket = aws_s3_bucket.example-dev.id
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AWSCloudTrailAclCheck20131101",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "cloudtrail.amazonaws.com"
+      },
+      "Action": "s3:GetBucketAcl",
+      "Resource": "arn:aws:s3:::my-tf-test-bucket-dev"
+    },
+    {
+      "Sid": "AWSCloudTrailWrite20131101",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "cloudtrail.amazonaws.com"
+      },
+      "Action": "s3:PutObject",
+      "Resource": [
+        "arn:aws:s3:::my-tf-test-bucket-dev/AWSLogs/821731102189/*",
+        #"arn:aws:s3:::myBucketName/[optional] myLogFilePrefix/AWSLogs/222222222222/*"
+      ],
+      "Condition": { 
+        "StringEquals": { 
+          "s3:x-amz-acl": "bucket-owner-full-control" 
+        }
+      }
+    }
+  ]
+}
+POLICY
+}
+
 # Create S3 Bucket 2
 resource "aws_s3_bucket" "example-val" {
   bucket = var.destination-bucket-name

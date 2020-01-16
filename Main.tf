@@ -38,7 +38,7 @@ resource "aws_s3_bucket_policy" "example" {
       },
       "Action": "s3:PutObject",
       "Resource": [
-        "arn:aws:s3:::my-tf-test-bucket-dev/AWSLogs/821731102189/*",
+        "arn:aws:s3:::my-tf-test-bucket-dev/AWSLogs/821731102189/*"
       ],
       "Condition": { 
         "StringEquals": { 

@@ -4,41 +4,47 @@ provider "aws" {
 }
 
 # Create S3 Bucket 1
+data "aws_caller_identity" "current" {}
+
 resource "aws_s3_bucket" "example-dev" {
   bucket = var.source-bucket-name
   acl    = "private"
-
-  tags = {
-    Name        = "My bucket-Dev"
-    Environment = "Dev"
-  }
-}
-
-#s3_bucket_policy
-resource "aws_s3_bucket_policy" "example" {
-  bucket = aws_s3_bucket.example-dev.id
+  force_destroy = true
   policy = <<POLICY
 {
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "AWSCloudTrailAclCheck20150319",
+            "Sid": "AWSCloudTrailAclCheck",
             "Effect": "Allow",
-            "Principal": {"Service": "cloudtrail.amazonaws.com"},
+            "Principal": {
+              "Service": "cloudtrail.amazonaws.com"
+            },
             "Action": "s3:GetBucketAcl",
             "Resource": "arn:aws:s3:::my-tf-test-bucket-dev"
         },
         {
-            "Sid": "AWSCloudTrailWrite20150319",
+            "Sid": "AWSCloudTrailWrite",
             "Effect": "Allow",
-            "Principal": {"Service": "cloudtrail.amazonaws.com"},
+            "Principal": {
+              "Service": "cloudtrail.amazonaws.com"
+            },
             "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::my-tf-test-bucket-dev/s3-cloudtrail-log/AWSLogs/821731102189 /*",
-            "Condition": {"StringEquals": {"s3:x-amz-acl": "bucket-owner-full-control"}}
+            "Resource": "arn:aws:s3:::my-tf-test-bucket-dev/prefix/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
+            "Condition": {
+                "StringEquals": {
+                    "s3:x-amz-acl": "bucket-owner-full-control"
+                }
+            }
         }
     ]
 }
 POLICY
+}
+  tags = {
+    Name        = "My bucket-Dev"
+    Environment = "Dev"
+  }
 }
 
 # Create S3 Bucket 2
@@ -142,12 +148,13 @@ resource "aws_lambda_function" "test_lambda" {
 
 
 #cloudtrail
+
 resource "aws_cloudtrail" "example" {
   name                          = var.trail_name
-  s3_bucket_name                = "my-tf-test-bucket-dev"
-  s3_key_prefix                 = var.trail_name
-  include_global_service_events = true
-  enable_logging                = true
+  s3_bucket_name                = aws_s3_bucket.example-dev.id
+  s3_key_prefix                 = "prefix"
+  include_global_service_events = false
+  /*enable_logging                = true
   is_multi_region_trail         = false
   enable_log_file_validation    = true
 
@@ -156,7 +163,7 @@ resource "aws_cloudtrail" "example" {
     read_write_type           = "All"
     include_management_events = true
   }
-
+*/
   tags = {
     Name        = "s3-cloudtrail"
  

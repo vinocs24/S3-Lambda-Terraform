@@ -6,7 +6,7 @@ provider "aws" {
 # Create S3 Bucket 1
 resource "aws_s3_bucket" "example-dev" {
   bucket = var.source-bucket-name
-  acl    = "public-read"
+  acl    = "private"
 
   tags = {
     Name        = "My bucket-Dev"
@@ -22,7 +22,7 @@ resource "aws_s3_bucket_policy" "example" {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Sid": "AWSCloudTrailAclCheck20131101",
+      "Sid": "AWSCloudTrailAclCheck",
       "Effect": "Allow",
       "Principal": {
         "Service": "cloudtrail.amazonaws.com"
@@ -38,7 +38,7 @@ resource "aws_s3_bucket_policy" "example" {
       },
       "Action": "s3:PutObject",
       "Resource": [
-        "arn:aws:s3:::my-tf-test-bucket-dev/AWSLogs/821731102189/*"
+        "arn:aws:s3:::my-tf-test-bucket-dev/s3-cloudtrail-log/AWSLogs/821731102189/*"
       ],
       "Condition": { 
         "StringEquals": { 
@@ -54,7 +54,7 @@ POLICY
 # Create S3 Bucket 2
 resource "aws_s3_bucket" "example-val" {
   bucket = var.destination-bucket-name
-  acl    = "public-read"
+  acl    = "private"
 
   tags = {
     Name        = "My bucket-Val"

@@ -106,7 +106,7 @@ data "archive_file" "Test" {
 resource "aws_lambda_function" "test_lambda" {
   filename      = "Test.zip"
   function_name = "s3-filemove"
-  role          = aws_iam_role.s3-lambda.arn
+  role          = aws_iam_role.iam_for_s3_lambda.arn
   handler       = "Test.lambda_handler"
   source_code_hash = "filebase64sha256(Test.zip)"
 

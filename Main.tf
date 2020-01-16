@@ -63,8 +63,8 @@ resource "aws_iam_policy" "s3_lambda_policy" {
                 "s3:ListBucketVersions"
             ],
             "Resource": [
-                "arn:aws:s3:::test-bucket-for-transfer-check",
-                "arn:aws:s3:::serverless-demo-s3-bucket"
+                "arn:aws:s3:::my-tf-test-bucket-dev",
+                "arn:aws:s3:::my-tf-test-bucket-val"
             ]
         },
         {
@@ -74,7 +74,7 @@ resource "aws_iam_policy" "s3_lambda_policy" {
                 "s3:GetObject",
                 "s3:GetObjectVersion"
             ],
-            "Resource": "arn:aws:s3:::test-bucket-for-transfer-check/*"
+            "Resource": "arn:aws:s3:::my-tf-test-bucket-dev/*"
         },
         {
             "Sid": "DestinationBucketPutObjectAccess",
@@ -82,7 +82,7 @@ resource "aws_iam_policy" "s3_lambda_policy" {
             "Action": [
                 "s3:PutObject"
             ],
-            "Resource": "arn:aws:s3:::serverless-demo-s3-bucket/*"
+            "Resource": "arn:aws:s3:::my-tf-test-bucket-val/*"
         }
     ]
 }

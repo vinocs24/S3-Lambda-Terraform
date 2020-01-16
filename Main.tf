@@ -112,3 +112,27 @@ resource "aws_lambda_function" "test_lambda" {
 
   runtime = "python3.7"
 }
+
+
+#cloudtrail
+resource "aws_cloudtrail" "example" {
+  name                          = var.trail_name
+  s3_bucket_name                = aws_s3_bucket.example-dev.id
+  s3_key_prefix                 = var.trail_name
+  include_global_service_events = true
+  enable_logging                = true
+  is_multi_region_trail         = false
+  enable_log_file_validation    = true
+
+
+  event_selector {
+    read_write_type           = "All"
+    include_management_events = true
+  }
+
+  tags = {
+    Name        = "s3-cloudtrail"
+ 
+  }
+}
+

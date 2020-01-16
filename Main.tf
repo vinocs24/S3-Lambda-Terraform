@@ -41,8 +41,6 @@ resource "aws_s3_bucket" "example-dev" {
 }
 POLICY
 }
-  
-}
 
 # Create S3 Bucket 2
 resource "aws_s3_bucket" "example-val" {

@@ -19,71 +19,24 @@ resource "aws_s3_bucket_policy" "example" {
   bucket = aws_s3_bucket.example-dev.id
   policy = <<POLICY
 {
-  "Parameters": {
-    "LogBucket": {
-      "Description": "Name Bucket.",
-      "Type": "String"
-    }
-  },
-  "Resources": {
-    "LogBucketPolicy": {
-      "Type": "AWS::S3::BucketPolicy",
-      "Properties": {
-        "Bucket": {
-                "Ref": "my-tf-test-bucket-dev"
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AWSCloudTrailAclCheck20150319",
+            "Effect": "Allow",
+            "Principal": {"Service": "cloudtrail.amazonaws.com"},
+            "Action": "s3:GetBucketAcl",
+            "Resource": "arn:aws:s3:::my-tf-test-bucket-dev"
         },
-        "PolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Sid": "AWSCloudTrailAclCheck",
-              "Effect": "Allow",
-              "Principal": {
-                "Service": "cloudtrail.amazonaws.com"
-              },
-              "Action": "s3:GetBucketAcl",
-              "Resource": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:aws:s3:::",
-                    {
-                      "Ref": "my-tf-test-bucket-dev"
-                    }
-                  ]
-                ]
-              }
-            },
-            {
-              "Sid": "AWSCloudTrailWrite",
-              "Effect": "Allow",
-              "Principal": {
-                "Service": "cloudtrail.amazonaws.com"
-              },
-              "Action": "s3:PutObject",
-              "Resource": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:aws:s3:::",
-                    {
-                      "Ref": "my-tf-test-bucket-dev"
-                    },
-                    "/AWSLogs/821731102189/*"
-                  ]
-                ]
-              },
-              "Condition": {
-                "StringEquals": {
-                  "s3:x-amz-acl": "bucket-owner-full-control"
-                }
-              }
-            }
-          ]
+        {
+            "Sid": "AWSCloudTrailWrite20150319",
+            "Effect": "Allow",
+            "Principal": {"Service": "cloudtrail.amazonaws.com"},
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::my-tf-test-bucket-dev/s3-cloudtrail-log/AWSLogs/821731102189 /*",
+            "Condition": {"StringEquals": {"s3:x-amz-acl": "bucket-owner-full-control"}}
         }
-      }
-    }
-  }
+    ]
 }
 POLICY
 }

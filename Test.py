@@ -2,7 +2,7 @@ import boto3
 s3 = boto3.resource('s3')
 clientname=boto3.client('s3')
 def lambda_handler(event, context):
-    bucket = 'test-bucket-for-transfer-check'
+    bucket = 'my-tf-test-bucket-dev'
     try:
         response = clientname.list_objects(
             Bucket=bucket,
@@ -15,7 +15,7 @@ def lambda_handler(event, context):
                 'Key': key
             }
             try:
-                destbucket = s3.Bucket('serverless-demo-s3-bucket')
+                destbucket = s3.Bucket('my-tf-test-bucket-val')
                 destbucket.copy(copy_source, key)
                 print('{} transferred to destination bucket'.format(key))
             except Exception as e:

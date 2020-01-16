@@ -41,10 +41,7 @@ resource "aws_s3_bucket" "example-dev" {
 }
 POLICY
 }
-  tags = {
-    Name        = "My bucket-Dev"
-    Environment = "Dev"
-  }
+  
 }
 
 # Create S3 Bucket 2

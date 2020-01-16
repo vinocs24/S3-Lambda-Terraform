@@ -19,3 +19,12 @@ variable "handler" {
 variable "runtime" {
   default = "python3.6"
 }
+
+variable "trail_name" {
+  default = "s3-cloudtrail-log"
+}
+
+variable "trail_name" {
+  default = "s3-log"
+}
+

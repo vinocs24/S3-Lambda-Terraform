@@ -6,7 +6,7 @@ provider "aws" {
 # Create S3 Bucket 1
 resource "aws_s3_bucket" "example-dev" {
   bucket = var.source-bucket-name
-  acl    = "public"
+  acl    = "public-read"
 
   tags = {
     Name        = "My bucket-Dev"
@@ -54,7 +54,7 @@ POLICY
 # Create S3 Bucket 2
 resource "aws_s3_bucket" "example-val" {
   bucket = var.destination-bucket-name
-  acl    = "public"
+  acl    = "public-read"
 
   tags = {
     Name        = "My bucket-Val"

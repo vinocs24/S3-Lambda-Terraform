@@ -53,6 +53,17 @@ resource "aws_s3_bucket" "example-val" {
   }
 }
 
+# Create S3 Bucket for cloudtrail
+resource "aws_s3_bucket" "example-CT" {
+  bucket = var.CT-bucket-name
+  acl    = "private"
+
+  tags = {
+    Name        = "My bucket-Val"
+    Environment = "vel"
+  }
+}
+
 #IAM Role:
 
 resource "aws_iam_role" "iam_for_s3_lambda" {
@@ -142,11 +153,47 @@ resource "aws_lambda_function" "test_lambda" {
 }
 
 
+#Cloudwatch
+resource "aws_cloudwatch_event_rule" "test-rule" {
+  name                = "example-cw-rule"
+  description         = "S3 event log"
+  
+  event_pattern = <<PATTERN
+{
+  "source": [
+    "aws.s3"
+  ],
+  "detail-type": [
+    "AWS API Call via CloudTrail"
+  ],
+  "detail": {
+    "eventSource": [
+      "s3.amazonaws.com"
+    ],
+    "eventName": [
+      "PutObject"
+    ],
+    "requestParameters": {
+      "bucketName": [
+        "my-tf-test-bucket-dev"
+      ]
+    }
+  }
+}
+PATTERN
+}
+
+resource "aws_cloudwatch_event_target" "cloud-wtc" {
+    rule = aws_cloudwatch_event_rule.test-rule.name
+    target_id = "s3-filemove"
+    arn = aws_lambda_function.test_lambda.arn
+}
+
 #cloudtrail
 
 resource "aws_cloudtrail" "example" {
   name                          = var.trail_name
-  s3_bucket_name                = aws_s3_bucket.example-dev.id
+  s3_bucket_name                = aws_s3_bucket.example-CT.id
   s3_key_prefix                 = "prefix"
   include_global_service_events = false
   /*enable_logging                = true
@@ -164,4 +211,5 @@ resource "aws_cloudtrail" "example" {
  
   }
 }
+
 

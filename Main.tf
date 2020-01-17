@@ -9,37 +9,11 @@ data "aws_caller_identity" "current" {}
 resource "aws_s3_bucket" "example-dev" {
   bucket = var.source-bucket-name
   acl    = "private"
-  force_destroy = true
-  policy = <<POLICY
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "AWSCloudTrailAclCheck",
-            "Effect": "Allow",
-            "Principal": {
-              "Service": "cloudtrail.amazonaws.com"
-            },
-            "Action": "s3:GetBucketAcl",
-            "Resource": "arn:aws:s3:::my-tf-test-bucket-dev"
-        },
-        {
-            "Sid": "AWSCloudTrailWrite",
-            "Effect": "Allow",
-            "Principal": {
-              "Service": "cloudtrail.amazonaws.com"
-            },
-            "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::my-tf-test-bucket-dev/prefix/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
-            "Condition": {
-                "StringEquals": {
-                    "s3:x-amz-acl": "bucket-owner-full-control"
-                }
-            }
-        }
-    ]
-}
-POLICY
+  
+  tags = {
+    Name        = "My bucket-dev"
+    Environment = "dev"
+  }
 }
 
 # Create S3 Bucket 2
@@ -57,10 +31,41 @@ resource "aws_s3_bucket" "example-val" {
 resource "aws_s3_bucket" "example-CT" {
   bucket = var.CT-bucket-name
   acl    = "private"
+  force_destroy = true
+  policy = <<POLICY
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AWSCloudTrailAclCheck",
+            "Effect": "Allow",
+            "Principal": {
+              "Service": "cloudtrail.amazonaws.com"
+            },
+            "Action": "s3:GetBucketAcl",
+            "Resource": "arn:aws:s3:::ct-log-demo12345"
+        },
+        {
+            "Sid": "AWSCloudTrailWrite",
+            "Effect": "Allow",
+            "Principal": {
+              "Service": "cloudtrail.amazonaws.com"
+            },
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::ct-log-demo12345/prefix/AWSLogs/${data.aws_caller_identity.current.account_id}/*",
+            "Condition": {
+                "StringEquals": {
+                    "s3:x-amz-acl": "bucket-owner-full-control"
+                }
+            }
+        }
+    ]
+}
+POLICY
 
   tags = {
-    Name        = "My bucket-Val"
-    Environment = "vel"
+    Name        = "My bucket-CT"
+    Environment = "cloudtrail"
   }
 }
 

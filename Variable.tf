@@ -10,7 +10,7 @@ variable "destination-bucket-name" {
 
 variable "CT-bucket-name" {
   description = "CloudTrail Bucket Name"
-  default     = "CT-log-demo12345"
+  default     = "ct-log-demo12345"
 }
 
 variable "function_name" {

@@ -8,6 +8,11 @@ variable "destination-bucket-name" {
   default     = "my-tf-test-bucket-val"
 }
 
+variable "CT-bucket-name" {
+  description = "CloudTrail Bucket Name"
+  default     = "CT-log-demo12345"
+}
+
 variable "function_name" {
   default = "minimal_lambda_function"
 }

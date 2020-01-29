@@ -379,4 +379,4 @@ resource "aws_lambda_permission" "allow_cloudwatch_event_permission" {
   principal     = "events.amazonaws.com"
   source_arn    = aws_cloudwatch_event_rule.test-rule.arn
 }
-}
+

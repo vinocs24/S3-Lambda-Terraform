@@ -39,7 +39,7 @@ resource "aws_cloudtrail" "example" {
     Name        = "s3-cloudtrail"
  
   }
-
+}
 # Create S3 Bucket for cloudtrail
 resource "aws_s3_bucket" "example-CT" {
   bucket = var.CT-bucket-name

@@ -6,7 +6,7 @@ provider "aws" {
 # Create S3 Bucket 1
 data "aws_caller_identity" "current" {}
 
-resource "aws_s3_bucket" "example-dev" {
+resource "aws_s3_bucket" "example-dev123" {
   bucket = var.source-bucket-name
   acl    = "private"
   
@@ -17,7 +17,7 @@ resource "aws_s3_bucket" "example-dev" {
 }
 
 # Create S3 Bucket 2
-resource "aws_s3_bucket" "example-val" {
+resource "aws_s3_bucket" "example-val123" {
   bucket = var.destination-bucket-name
   acl    = "private"
 
@@ -31,7 +31,7 @@ resource "aws_s3_bucket" "example-val" {
 
 resource "aws_cloudtrail" "example" {
   name                          = var.trail_name
-  s3_bucket_name                = aws_s3_bucket.example-CT.id
+  s3_bucket_name                = aws_s3_bucket.example-CT123.id
   s3_key_prefix                 = "prefix"
   include_global_service_events = false
   
@@ -41,7 +41,7 @@ resource "aws_cloudtrail" "example" {
   }
 }
 # Create S3 Bucket for cloudtrail
-resource "aws_s3_bucket" "example-CT" {
+resource "aws_s3_bucket" "example-CT123" {
   bucket = var.CT-bucket-name
   acl    = "private"
   force_destroy = true

@@ -29,4 +29,7 @@ variable "trail_name" {
   default = "s3-cloudtrail-log"
 }
 
-
+variable "alert_email_address" {
+  description = "Please Provide Email-id"
+  default = "vinocs24@gmail.com"
+}

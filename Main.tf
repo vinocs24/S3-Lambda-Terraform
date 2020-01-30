@@ -146,7 +146,7 @@ resource "aws_sns_topic" "bucket_alerts" {
   name = "s3-bucket-public-access-alert-tf"
 
   provisioner "local-exec" {
-    command = "aws sns subscribe --topic-arn ${self.arn} --protocol email --notification-endpoint ${var.alert_email_address}"
+    command = "aws sns subscribe --topic-arn ${self.arn} --protocol email --notification-endpoint var.alert_email_address
   }
 }
 
@@ -312,9 +312,7 @@ resource "aws_lambda_function" "test_lambda" {
 resource "aws_cloudwatch_event_rule" "test-rule" {
   name                = "example-cw-rule"
   description         = "S3 event log"
-  depends_on = [
-    "aws_lambda_function.test_lambda",
-  ]
+  depends_on = [aws_lambda_function.test_lambda]
   
     event_pattern = <<PATTERN
 {

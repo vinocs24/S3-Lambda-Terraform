@@ -123,7 +123,7 @@ resource "aws_iam_role_policy" "logging_policy_tf" {
         "logs:CreateLogStream"
       ],
       "Resource": [
-        aws_cloudwatch_log_group.log_group_tf.arn
+        "aws_cloudwatch_log_group.log_group_tf.arn"
       ]
     },
     {
@@ -132,7 +132,7 @@ resource "aws_iam_role_policy" "logging_policy_tf" {
         "logs:PutLogEvents"
       ],
       "Resource": [
-        aws_cloudwatch_log_group.log_group_tf.arn
+        "aws_cloudwatch_log_group.log_group_tf.arn"
       ]
     }
   ]

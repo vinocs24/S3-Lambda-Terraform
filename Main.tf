@@ -107,8 +107,8 @@ resource "aws_iam_policy" "s3_lambda_policy" {
                 "s3:ListBucketVersions"
             ],
             "Resource": [
-                "arn:aws:s3:::my-tf-test-bucket-dev",
-                "arn:aws:s3:::my-tf-test-bucket-val"
+                "arn:aws:s3:::my-tf-test-bucket-dev123",
+                "arn:aws:s3:::my-tf-test-bucket-val123"
             ]
         },
         {
@@ -118,7 +118,7 @@ resource "aws_iam_policy" "s3_lambda_policy" {
                 "s3:GetObject",
                 "s3:GetObjectVersion"
             ],
-            "Resource": "arn:aws:s3:::my-tf-test-bucket-dev/*"
+            "Resource": "arn:aws:s3:::my-tf-test-bucket-dev123/*"
         },
         {
             "Sid": "DestinationBucketPutObjectAccess",
@@ -126,7 +126,7 @@ resource "aws_iam_policy" "s3_lambda_policy" {
             "Action": [
                 "s3:PutObject"
             ],
-            "Resource": "arn:aws:s3:::my-tf-test-bucket-val/*"
+            "Resource": "arn:aws:s3:::my-tf-test-bucket-val123/*"
         }
     ]
 }

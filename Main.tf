@@ -163,6 +163,10 @@ resource "aws_cloudwatch_event_rule" "test-rule" {
   name                = "example-cw-rule"
   description         = "S3 event log"
   
+depends_on = [
+    "aws_lambda_function.test_lambda",
+  ]
+
   event_pattern = <<PATTERN
 {
   "source": [
@@ -176,13 +180,10 @@ resource "aws_cloudwatch_event_rule" "test-rule" {
       "s3.amazonaws.com"
     ],
     "eventName": [
-      "PutObject"
-    ],
-    "requestParameters": {
-      "bucketName": [
-        "my-tf-test-bucket-dev"
-      ]
-    }
+      "PutBucketAcl",
+	  "PutBucketPolicy",
+      "CreateBucket"
+    ]
   }
 }
 PATTERN

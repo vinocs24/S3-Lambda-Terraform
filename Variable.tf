@@ -1,16 +1,16 @@
 variable "source-bucket-name" {
   description = "Source Bucket Name"
-  default     = "my-tf-test-bucket-dev"
+  default     = "my-tf-test-bucket-dev123"
 }
 
 variable "destination-bucket-name" {
   description = "Destination Bucket Name"
-  default     = "my-tf-test-bucket-val"
+  default     = "my-tf-test-bucket-val123"
 }
 
 variable "CT-bucket-name" {
   description = "CloudTrail Bucket Name"
-  default     = "ct-log-demo12345"
+  default     = "ct-log-demo123456"
 }
 
 variable "function_name" {
@@ -26,7 +26,7 @@ variable "runtime" {
 }
 
 variable "trail_name" {
-  default = "s3-cloudtrail-log"
+  default = "s3-cloudtrail-log-new"
 }
 
 variable "alert_email_address" {

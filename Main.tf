@@ -89,8 +89,8 @@ resource "aws_cloudwatch_log_group" "log_group" {
   name = "cloudtrail-log-group"
 }
 
-resource "aws_iam_role" "logging_role" {
-  name = "cloudwatch-logging-role-tf"
+resource "aws_iam_role" "logging_role_tf" {
+  name = "cloudwatch-logging-role-tf_new"
 
   assume_role_policy = <<POLICY
 {
@@ -154,7 +154,7 @@ resource "aws_sns_topic" "bucket_alerts" {
 #IAM Role:
 
 resource "aws_iam_role" "iam_for_s3_lambda_tf" {
-  name = "iam_for_s3_lambda"
+  name = "iam_for_s3_lambda_tf"
 
   assume_role_policy = <<EOF
 {

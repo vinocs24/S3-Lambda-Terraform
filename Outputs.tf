@@ -3,9 +3,9 @@ output "function_arn" {
 }
 
 output "source_bucket" {
-  value       = aws_s3_bucket.example-dev123.arn 
+  value       = aws_s3_bucket.example-dev.arn 
 }
 
 output "desc_bucket" {
-  value       = aws_s3_bucket.example-val123.arn
+  value       = aws_s3_bucket.example-val.arn
 }

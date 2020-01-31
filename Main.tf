@@ -31,7 +31,7 @@ resource "aws_s3_bucket" "example-val" {
 
 resource "aws_cloudtrail" "example" {
   name                          = var.trail_name
-  s3_bucket_name                = aws_s3_bucket.example-CT123.id
+  s3_bucket_name                = aws_s3_bucket.example-CT.id
   s3_key_prefix                 = "prefix"
   include_global_service_events = false
   

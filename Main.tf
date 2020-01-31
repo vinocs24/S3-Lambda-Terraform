@@ -171,6 +171,7 @@ depends_on = [
 {
   "source": [
     "aws.s3"
+    "aws.lambda"
   ],
   "detail-type": [
     "AWS API Call via CloudTrail"

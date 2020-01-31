@@ -162,10 +162,10 @@ resource "aws_lambda_function" "test_lambda" {
 resource "aws_cloudwatch_event_rule" "test-rule" {
   name                = "example-cw-rule"
   description         = "S3 event log"
-  
+  /*
 depends_on = [
     aws_lambda_function.test_lambda
-  ]
+  ]*/
 
   event_pattern = <<PATTERN
 {

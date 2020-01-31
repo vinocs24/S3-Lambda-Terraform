@@ -6,7 +6,7 @@ provider "aws" {
 # Create S3 Bucket 1
 data "aws_caller_identity" "current" {}
 
-resource "aws_s3_bucket" "example-dev123" {
+resource "aws_s3_bucket" "example-dev" {
   bucket = var.source-bucket-name
   acl    = "private"
   
@@ -17,7 +17,7 @@ resource "aws_s3_bucket" "example-dev123" {
 }
 
 # Create S3 Bucket 2
-resource "aws_s3_bucket" "example-val123" {
+resource "aws_s3_bucket" "example-val" {
   bucket = var.destination-bucket-name
   acl    = "private"
 
@@ -41,7 +41,7 @@ resource "aws_cloudtrail" "example" {
   }
 }
 # Create S3 Bucket for cloudtrail
-resource "aws_s3_bucket" "example-CT123" {
+resource "aws_s3_bucket" "example-CT" {
   bucket = var.CT-bucket-name
   acl    = "private"
   force_destroy = true
@@ -86,7 +86,7 @@ POLICY
 #cloudwatch log group
 
 resource "aws_cloudwatch_log_group" "log_group" {
-  name = "cloudtrail-log-group-tf"
+  name = "cloudtrail-log-group"
 }
 
 resource "aws_iam_role" "logging_role" {
@@ -109,7 +109,7 @@ resource "aws_iam_role" "logging_role" {
 POLICY
 }
 
-resource "aws_iam_role_policy" "logging_policy" {
+resource "aws_iam_role_policy" "logging_policy_tf" {
   name = "cloudwatch-logging-policy-tf"
   role = aws_iam_role.logging_role.id
 
@@ -153,7 +153,7 @@ resource "aws_sns_topic" "bucket_alerts" {
 
 #IAM Role:
 
-resource "aws_iam_role" "iam_for_s3_lambda" {
+resource "aws_iam_role" "iam_for_s3_lambda_tf" {
   name = "iam_for_s3_lambda"
 
   assume_role_policy = <<EOF
@@ -175,7 +175,7 @@ EOF
 
 resource "aws_iam_role_policy" "lambda_policy" {
   name = "bucket-alert-lambda-execution-policy-tf"
-  role = aws_iam_role.iam_for_s3_lambda.id
+  role = aws_iam_role.iam_for_s3_lambda_tf.id
 
   policy = <<POLICY
 {

@@ -56,7 +56,7 @@ resource "aws_s3_bucket" "example-CT" {
               "Service": "cloudtrail.amazonaws.com"
             },
             "Action": "s3:GetBucketAcl",
-            "Resource": "arn:aws:s3:::ct-log-demo12345"
+            "Resource": "arn:aws:s3:::ct-log-demo123456"
         },
         {
             "Sid": "AWSCloudTrailWrite",
@@ -85,8 +85,8 @@ POLICY
 
 #cloudwatch log group
 
-resource "aws_cloudwatch_log_group" "log_group" {
-  name = "cloudtrail-log-group"
+resource "aws_cloudwatch_log_group" "log_group_tf" {
+  name = "cloudtrail-log-group_tf"
 }
 
 resource "aws_iam_role" "logging_role_tf" {

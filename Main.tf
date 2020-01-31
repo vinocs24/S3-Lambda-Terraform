@@ -111,7 +111,7 @@ POLICY
 
 resource "aws_iam_role_policy" "logging_policy_tf" {
   name = "cloudwatch-logging-policy-tf"
-  role = aws_iam_role.logging_role.id
+  role = aws_iam_role.logging_role_tf.id
 
   policy = <<POLICY
 {
